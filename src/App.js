@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col } from 'reactstrap';
+import { Container} from 'reactstrap';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import CampGround from './components/CampGround'
 

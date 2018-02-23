@@ -4,7 +4,10 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import Camping1 from '../images/camping_1.jpg';
 import Camping2 from '../images/camping_2.jpg';
+import Wc from 'material-ui-icons/Wc';
+import Pets from 'material-ui-icons/Pets';
 import Delete from 'material-ui-icons/Delete';
+import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 
 const amenities = [
   {
@@ -67,11 +70,18 @@ const styles = {
     position: 'relative',
     fontSize: 18
   },
-  disabled: {
+  subfeatureText: {
     display: 'inline-block',
     position: 'relative',
     fontSize: 18,
-    color: 'grey',
+    marginLeft: 38
+  },
+  disabledSubfeature: {
+    display: 'inline-block',
+    position: 'relative',
+    fontSize: 18,
+    color: '#BDBDBD',
+    marginLeft: 38
   },
   inline: {
     display: 'inline-block'
@@ -81,30 +91,89 @@ const styles = {
     height: 25,
     position: 'relative',
     top: 4,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginRight: 15,
+    color: 'grey',
+    fontSize: 20,
+    textAlign: 'center'
   }
 }
 
-
-
 class CampGround extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openAmenities: {}
+    };
+  }
+
+  toggleSubfeature(amenityTitle){
+    let openAmenities = this.state.openAmenities;
+    openAmenities[amenityTitle] = !openAmenities[amenityTitle];
+    this.setState(openAmenities: openAmenities);
+  }
 
   renderAmenities(amenities) {
     return(
       amenities.map((amenity, index) => (
-        <div>
-          <p key={amenity.name} style={styles.amenity}>
+        <div key={index}>
+          <p onClick={this.toggleSubfeature.bind(this, amenity.title)} style={styles.amenity}>
+            <span style={styles.amenityText}>
+              {
+                amenity.title == 'Toilet' &&
+                <Wc style={styles.icon} color='grey' />
+              }
+              {
+                amenity.title == 'Pets allowed' &&
+                <Pets style={styles.icon} color='grey' />
+              }
+              {
+                amenity.title == 'Shower' &&
+                <i className='fas fa2x fa-shower' style={styles.icon} aria-hidden='true'></i>
+              }
+              {
+                amenity.title == 'Trash' &&
+                <Delete style={styles.icon} color='grey' />
+              }
+            </span>
             <span style={styles.amenityText}>
               {amenity.title}
             </span>
-            <span
-              className='float-right'
-              style={styles.inline}
-            >
-              <Delete style={styles.icon} color='grey' />
-            </span>
+            {
+              amenity.subfeatures &&
+              amenity.subfeatures.length !== 0 &&
+              <span
+                className='float-right'
+                style={styles.inline}
+              >
+                <KeyboardArrowDown style={styles.icon} color='grey' />
+              </span>
+            }
           </p>
           <Divider />
+          {
+            this.state.openAmenities[amenity.title] &&
+            this.renderSubfeatures(amenity.subfeatures)
+          }
+        </div>
+      ))
+    );
+  }
+
+  renderSubfeatures(subfeatures) {
+    return(
+      subfeatures.map((subfeature, index) => (
+        <div key={index}>
+        {
+          <p style={styles.amenity}>
+            <span style={subfeature.presence === false ? styles.disabledSubfeature : styles.subfeatureText}>
+              {
+                subfeature.title
+              }
+            </span>
+          </p>
+        }
+        <Divider />
         </div>
       ))
     );
@@ -151,7 +220,7 @@ class CampGround extends Component {
             <div className='text-left'>
               <Paper zDepth={1}>
                   {
-                   this.renderAmenities(amenities)
+                    this.renderAmenities(amenities)
                   }
               </Paper>
             </div>

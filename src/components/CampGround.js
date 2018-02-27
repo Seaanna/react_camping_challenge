@@ -8,6 +8,7 @@ import Wc from 'material-ui-icons/Wc';
 import Pets from 'material-ui-icons/Pets';
 import Delete from 'material-ui-icons/Delete';
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
+import Done from 'material-ui-icons/Done';
 
 const amenities = [
   {
@@ -96,6 +97,10 @@ const styles = {
     color: 'grey',
     fontSize: 20,
     textAlign: 'center'
+  },
+  item: {
+    listStyleType: 'none',
+    padding: 0
   }
 }
 
@@ -116,7 +121,7 @@ class CampGround extends Component {
   renderAmenities(amenities) {
     return(
       amenities.map((amenity, index) => (
-        <div key={index}>
+        <li key={index} style={styles.item}>
           <p onClick={this.toggleSubfeature.bind(this, amenity.title)} style={styles.amenity}>
             <span style={styles.amenityText}>
               {
@@ -146,16 +151,19 @@ class CampGround extends Component {
                 className='float-right'
                 style={styles.inline}
               >
+
                 <KeyboardArrowDown style={styles.icon} color='grey' />
               </span>
             }
           </p>
           <Divider />
-          {
-            this.state.openAmenities[amenity.title] &&
-            this.renderSubfeatures(amenity.subfeatures)
-          }
-        </div>
+          <ul style={styles.item}>
+            {
+              this.state.openAmenities[amenity.title] &&
+              this.renderSubfeatures(amenity.subfeatures)
+            }
+          </ul>
+        </li>
       ))
     );
   }
@@ -163,18 +171,34 @@ class CampGround extends Component {
   renderSubfeatures(subfeatures) {
     return(
       subfeatures.map((subfeature, index) => (
-        <div key={index}>
-        {
-          <p style={styles.amenity}>
-            <span style={subfeature.presence === false ? styles.disabledSubfeature : styles.subfeatureText}>
+        <li key={index}>
+          {
+            <p onClick={this.toggleSubfeature.bind(this, subfeature.title)} style={styles.amenity}>
+              <span style={subfeature.presence === false ? styles.disabledSubfeature : styles.subfeatureText}>
+                {
+                  subfeature.title
+                }
+              </span>
               {
-                subfeature.title
+                subfeature.subfeatures &&
+                subfeature.subfeatures.length !== 0 &&
+                <span
+                  className='float-right'
+                  style={styles.inline}
+                >
+                  <KeyboardArrowDown style={styles.icon} color='grey' />
+                </span>
               }
-            </span>
-          </p>
-        }
-        <Divider />
-        </div>
+            </p>
+          }
+          <Divider />
+          <ul style={styles.item}>
+            {
+              this.state.openAmenities[subfeature.title] &&
+              this.renderSubfeatures(subfeature.subfeatures)
+            }
+          </ul>
+        </li>
       ))
     );
   }
@@ -219,9 +243,11 @@ class CampGround extends Component {
           <Col xs={12} sm={6}>
             <div className='text-left'>
               <Paper zDepth={1}>
+                <ul style={styles.item}>
                   {
                     this.renderAmenities(amenities)
                   }
+                </ul>
               </Paper>
             </div>
           </Col>

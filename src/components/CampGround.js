@@ -9,6 +9,7 @@ import Pets from 'material-ui-icons/Pets';
 import Delete from 'material-ui-icons/Delete';
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 import Done from 'material-ui-icons/Done';
+import Clear from 'material-ui-icons/Clear';
 
 const amenities = [
   {
@@ -65,6 +66,7 @@ const styles = {
   amenity: {
     padding: '15px 15px',
     margin: 0,
+    cursor: 'pointer'
   },
   amenityText: {
     display: 'inline-block',
@@ -81,7 +83,7 @@ const styles = {
     display: 'inline-block',
     position: 'relative',
     fontSize: 18,
-    color: '#BDBDBD',
+    color: 'grey',
     marginLeft: 38
   },
   inline: {
@@ -176,8 +178,17 @@ class CampGround extends Component {
             <p onClick={this.toggleSubfeature.bind(this, subfeature.title)} style={styles.amenity}>
               <span style={subfeature.presence === false ? styles.disabledSubfeature : styles.subfeatureText}>
                 {
+                  subfeature.presence == false &&
+                  <Clear style={styles.icon} color='red' />
+                }
+                {
+                  subfeature.presence == true &&
+                  <Done style={styles.icon} color='black' />
+                }
+                {
                   subfeature.title
                 }
+
               </span>
               {
                 subfeature.subfeatures &&
@@ -189,6 +200,7 @@ class CampGround extends Component {
                   <KeyboardArrowDown style={styles.icon} color='grey' />
                 </span>
               }
+
             </p>
           }
           <Divider />
@@ -220,17 +232,37 @@ class CampGround extends Component {
         </Row>
         <br/>
         <Row>
-          <Col xs={12} sm={6}>
+          <Col xs={12} sm={{ size: 6, order: 2, offset: 1 }}>
             <div className='text-left'>
             <h1>
-              Santee Lakes
+              Camp Granite Lake
             </h1>
             </div>
           </Col>
         </Row>
         <br/>
         <Row>
-          <Col xs={12} sm={6}>
+          <Col xs={12} sm={{ size: 6, order: 2, offset: 1 }}>
+            <div className='text-left'>
+              <h5>
+                About Camp Granite Lake
+              </h5>
+            </div>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col xs={12} sm={{ size: 2, order: 2, offset: 1 }}>
+            <div className='text-left'>
+              <strong>
+                Hosted by
+              </strong>
+              <div className="text-muted">
+                Sea-Anna
+              </div>
+            </div>
+          </Col>
+          <Col xs={12} sm={{ size: 4, order: 2, offset: 0 }}>
             <div className='text-left'>
             <p>
               Lorem ipsum dolor amet keffiyeh vape echo park skateboard shabby chic gochujang kombucha celiac art party lomo whatever fashion axe synth. Tacos wolf chillwave tofu, migas pitchfork iPhone. Biodiesel hashtag lo-fi scenester. Enamel pin flannel banjo ethical austin. PBR&B hashtag cray, roof party readymade humblebrag pop-up occupy copper mug hexagon jianbing banjo.
@@ -239,8 +271,8 @@ class CampGround extends Component {
           </Col>
         </Row>
         <br/>
-        <Row>
-          <Col xs={12} sm={6}>
+        <Row style={styles.amenityMargin}>
+          <Col xs={12} sm={{ size: 4, order: 3, offset: 3 }}>
             <div className='text-left'>
               <Paper zDepth={1}>
                 <ul style={styles.item}>

@@ -11,7 +11,7 @@ class App extends Component {
       <MuiThemeProvider>
         <Container fluid={true}>
           <br/>
-          <h1 className='text-center digital'>Hipcamp</h1>
+          <h3 className='text-left digital'>Hipcamp Challenge</h3>
           <br/>
           <CampGround />
         </Container>

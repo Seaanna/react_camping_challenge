@@ -11,6 +11,7 @@ import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 import Done from 'material-ui-icons/Done';
 import Clear from 'material-ui-icons/Clear';
 
+
 const amenities = [
   {
     'title': 'Toilet',
@@ -66,7 +67,7 @@ const styles = {
   amenity: {
     padding: '15px 15px',
     margin: 0,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   amenityText: {
     display: 'inline-block',
@@ -103,6 +104,9 @@ const styles = {
   item: {
     listStyleType: 'none',
     padding: 0
+  },
+  amenityMargin: {
+    marginBottom: 200
   }
 }
 
@@ -162,7 +166,7 @@ class CampGround extends Component {
           <ul style={styles.item}>
             {
               this.state.openAmenities[amenity.title] &&
-              this.renderSubfeatures(amenity.subfeatures)
+              this.renderSubfeatures(amenity.subfeatures, 1)
             }
           </ul>
         </li>
@@ -170,20 +174,35 @@ class CampGround extends Component {
     );
   }
 
-  renderSubfeatures(subfeatures) {
+  renderSubfeatures(subfeatures, indent) {
+    const subfeatureText = {
+      display: 'inline-block',
+      position: 'relative',
+      fontSize: 18,
+      marginLeft: 38 * indent
+    };
+
+    const disabledSubfeature = {
+      display: 'inline-block',
+      position: 'relative',
+      fontSize: 18,
+      color: 'grey',
+      marginLeft: 38 * indent
+    };
+
     return(
       subfeatures.map((subfeature, index) => (
         <li key={index}>
           {
             <p onClick={this.toggleSubfeature.bind(this, subfeature.title)} style={styles.amenity}>
-              <span style={subfeature.presence === false ? styles.disabledSubfeature : styles.subfeatureText}>
+              <span style={subfeature.presence === false ? disabledSubfeature : subfeatureText}>
                 {
                   subfeature.presence == false &&
                   <Clear style={styles.icon} color='red' />
                 }
                 {
                   subfeature.presence == true &&
-                  <Done style={styles.icon} color='black' />
+                  <Done style={styles.icon} color='green' />
                 }
                 {
                   subfeature.title
@@ -207,7 +226,7 @@ class CampGround extends Component {
           <ul style={styles.item}>
             {
               this.state.openAmenities[subfeature.title] &&
-              this.renderSubfeatures(subfeature.subfeatures)
+              this.renderSubfeatures(subfeature.subfeatures, 2)
             }
           </ul>
         </li>
@@ -262,7 +281,7 @@ class CampGround extends Component {
               </div>
             </div>
           </Col>
-          <Col xs={12} sm={{ size: 4, order: 2, offset: 0 }}>
+          <Col xs={12} sm={{ size: 6, order: 2, offset: 0 }} lg={{ size: 4, order: 2, offset: 0 }}>
             <div className='text-left'>
             <p>
               Lorem ipsum dolor amet keffiyeh vape echo park skateboard shabby chic gochujang kombucha celiac art party lomo whatever fashion axe synth. Tacos wolf chillwave tofu, migas pitchfork iPhone. Biodiesel hashtag lo-fi scenester. Enamel pin flannel banjo ethical austin. PBR&B hashtag cray, roof party readymade humblebrag pop-up occupy copper mug hexagon jianbing banjo.
@@ -272,7 +291,7 @@ class CampGround extends Component {
         </Row>
         <br/>
         <Row style={styles.amenityMargin}>
-          <Col xs={12} sm={{ size: 4, order: 3, offset: 3 }}>
+          <Col xs={12} sm={{ size: 6, offset: 3 }} lg={{ size: 4, offset: 3 }}>
             <div className='text-left'>
               <Paper zDepth={1}>
                 <ul style={styles.item}>
